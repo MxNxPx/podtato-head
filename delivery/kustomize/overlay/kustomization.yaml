@@ -18,6 +18,20 @@ commonLabels:
 # patchesStrategicMerge:
 #  - patch.yaml
 
+## patches to be applied to target resources
+#patches:
+#  - patch: |-
+#      - op: add
+#        path: /spec/template/spec/containers/0/env/-
+#        value: 
+#            name: PODTATO_PART_NUMBER
+#            value: "01"
+#    target:
+#      group: apps
+#      version: v1
+#      kind: Deployment
+##      name: podtato-entry  #patch a specific named deployment
+
 ## kustomize transformers that operate on resources
 transformers:
   - labels.yaml
