@@ -32,6 +32,7 @@ else
 fi
 
 kubectl get deployments --namespace=${namespace}
+helm get all podtato-head --namespace=${namespace}
 
 echo ""
 echo "=== await readiness of deployments..."
