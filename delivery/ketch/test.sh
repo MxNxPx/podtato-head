@@ -58,7 +58,7 @@ ketch app info podtato-head
 
 echo "----> awaiting deployment available..."
 sleep 3
-kubectl wait --for=condition=Available deployment --selector 'theketch.io/app-name==podtato-head' --timeout=120s
+kubectl wait --for=condition=Available deployment --selector 'theketch.io/app-name==podtato-head' --timeout=30s
 
 ## test ketch app
 INGRESS_HOSTNAME=$(ketch app info podtato-head | grep '^Address' | sed -E 's/.*https?\:\/\/(.*)$/\1/')

@@ -5,7 +5,8 @@ declare -r this_dir=$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)
 declare -r root_dir=$(cd ${this_dir}/../.. && pwd)
 if [[ -f "${root_dir}/.env" ]]; then source "${root_dir}/.env"; fi
 
-github_user=${1:-${GITHUB_USER}}
+github_user_mixcase=${1:-${GITHUB_USER}}
+github_user=$(echo $github_user_mixcase | awk '{print tolower($0)}')
 github_token=${2:-${GITHUB_TOKEN}}
 
 echo "github_user: ${github_user}"
@@ -39,7 +40,7 @@ echo ""
 echo "=== await readiness of deployments..."
 parts=("entry" "hat" "left-leg" "left-arm" "right-leg" "right-arm")
 for part in "${parts[@]}"; do
-    kubectl wait --for=condition=Available --timeout=120s deployment --namespace ${namespace} podtato-${part}
+    kubectl wait --for=condition=Available --timeout=30s deployment --namespace ${namespace} podtato-${part}
 done
 
 ${root_dir}/scripts/test_services.sh ${namespace}
