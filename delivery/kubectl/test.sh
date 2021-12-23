@@ -39,7 +39,7 @@ echo ""
 echo "=== await readiness of deployments..."
 parts=("entry" "hat" "left-leg" "left-arm" "right-leg" "right-arm")
 for part in "${parts[@]}"; do
-    kubectl wait --for=condition=Available --timeout=30s deployment --namespace ${namespace} podtato-${part}
+    kubectl wait --for=condition=Available --timeout=120s deployment --namespace ${namespace} podtato-${part}
 done
 
 ${root_dir}/scripts/test_services.sh ${namespace}
