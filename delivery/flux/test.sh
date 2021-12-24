@@ -19,7 +19,7 @@ if [[ -n "${github_token}" ]]; then
     if [[ -z "${test}" ]]; then
       kubectl create secret docker-registry ghcr \
           --docker-server 'ghcr.io' \
-          --docker-username "${github_user}" \
+          --docker-username "${github_user_mixcase}" \
           --docker-password "${github_token}"
     fi
 fi
@@ -45,26 +45,26 @@ flux install --version=latest
 
 secret_ref_name=podtato-flux-secret
 git_source_name=podtato-flux-repo
-git_repo_url=https://github.com/${github_user}/podtato-head
+git_repo_url=https://github.com/${github_user_mixcase}/podtato-head
 # TODO: update to main after merge
 #git_source_branch=develop
 git_source_branch=$(git rev-parse --abbrev-ref HEAD)
 helmrelease_name=podtato-flux-release
 
 if [[ -n "${USE_SSH_GIT_AUTH}" ]]; then
-    git_repo_url=ssh://git@github.com/${github_user}/podtato-head
+    git_repo_url=ssh://git@github.com/${github_user_mixcase}/podtato-head
     flux create secret git ${secret_ref_name} --url=${git_repo_url}
     ssh_public_key=$(kubectl get secret ${secret_ref_name} -n flux-system -ojson | jq -r '.data."identity.pub"' | base64 -d)
     # delete existing keys of the same name
-    gh api repos/${github_user}/podtato-head/keys | jq -r '.[].url' | sed 's/^https:\/\/api.github.com\///' | xargs -L 1 -r gh api --method DELETE
-    gh api repos/${github_user}/podtato-head/keys \
+    gh api repos/${github_user_mixcase}/podtato-head/keys | jq -r '.[].url' | sed 's/^https:\/\/api.github.com\///' | xargs -L 1 -r gh api --method DELETE
+    gh api repos/${github_user_mixcase}/podtato-head/keys \
         -F title=${secret_ref_name} \
         -F "key=${ssh_public_key}"
     sleep 3
 else
     flux create secret git ${secret_ref_name} \
         --url=${git_repo_url} \
-        --username "${github_user}" \
+        --username "${github_user_mixcase}" \
         --password "${github_token}"
 fi
 
