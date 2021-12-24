@@ -1,5 +1,5 @@
 FROM docker.io/library/golang:latest AS builder
-ARG GITHUB_USER=podtato-head
+ARG GITHUB_USER=${GITHUB_USER}
 LABEL org.opencontainers.image.source = "https://github.com/${GITHUB_USER}/podtato-head"
 
 ENV GO111MODULE=on \
@@ -16,7 +16,7 @@ RUN go build -o entry ./cmd/entry
 
 
 FROM scratch
-ARG GITHUB_USER=podtato-head
+ARG GITHUB_USER=${GITHUB_USER}
 LABEL org.opencontainers.image.source = "https://github.com/${GITHUB_USER}/podtato-head"
 
 COPY --from=builder /build/entry /entry
