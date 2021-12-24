@@ -70,6 +70,7 @@ else
 fi
 
 flux create source git ${git_source_name} \
+    --verbose \
     --url=${git_repo_url} \
     --secret-ref ${secret_ref_name} \
     --branch=${git_source_branch}
