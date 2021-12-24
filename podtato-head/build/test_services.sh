@@ -24,7 +24,7 @@ kubectl cluster-info
 
 echo ""
 echo "=== Testing kubectl deployment..."
-${root_dir}/delivery/kubectl/test.sh "${github_user}" "${github_token}"
+${root_dir}/delivery/kubectl/test.sh "${github_user_mixcase}" "${github_token}"
 
 echo ""
 if [[ -n "${WAIT_FOR_DELETE}" ]]; then

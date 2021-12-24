@@ -34,7 +34,7 @@ commit_sha=$(git rev-parse HEAD)
 if [[ -z "${github_token}" ]]; then
     echo "WARNING: GITHUB_TOKEN not set, push may fail"
 else
-    echo "${github_token}" | docker login --username=${github_user} --password-stdin ${registry} &> /dev/null
+    echo "${github_token}" | docker login --username=${github_user_mixcase} --password-stdin ${registry} &> /dev/null
 fi
 # /end set up registry access
 
@@ -74,7 +74,7 @@ echo "INFO: building container for entry as ${container_name}"
 docker build ${app_dir} \
     --tag "${container_name}:latest" \
     --tag "${container_name}:${version}" \
-    --build-arg "GITHUB_USER=${github_user}" \
+    --build-arg "GITHUB_USER=${github_user_mixcase}" \
     --file ${app_dir}/cmd/entry/Dockerfile
 if [[ -n "${PUSH_TO_REGISTRY}" ]]; then
     docker push "${container_name}:latest"
@@ -111,7 +111,7 @@ for part in "${parts[@]}"; do
         --tag "${container_name}:latest" \
         --tag "${container_name}:${version}" \
         --build-arg "PART=${part}" \
-        --build-arg "GITHUB_USER=${github_user}" \
+        --build-arg "GITHUB_USER=${github_user_mixcase}" \
         --file ${app_dir}/cmd/parts/Dockerfile
     if [[ -n "${PUSH_TO_REGISTRY}" ]]; then
         docker push "${container_name}:latest"

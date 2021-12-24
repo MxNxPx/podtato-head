@@ -15,10 +15,10 @@ namespace=podtato-kubectl
 kubectl create namespace ${namespace} --save-config || true &> /dev/null
 kubectl config set-context --current --namespace ${namespace}
 
-if [[ -n "${github_token}" && -n "${github_user}" ]]; then
+if [[ -n "${github_token}" && -n "${github_user_mixcase}" ]]; then
     kubectl create secret docker-registry ghcr \
         --docker-server 'ghcr.io' \
-        --docker-username "${github_user}" \
+        --docker-username "${github_user_mixcase}" \
         --docker-password "${github_token}"
 
     kubectl patch serviceaccount default \
