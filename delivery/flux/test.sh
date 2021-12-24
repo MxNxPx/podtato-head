@@ -10,7 +10,7 @@ github_user=$(echo $github_user_mixcase | awk '{print tolower($0)}')
 github_token=${2:-${GITHUB_TOKEN}}
 
 echo "github_user: ${github_user}"
-echo "git_source_branch: $(echo ${GITHUB_REF#refs/heads/})"
+echo "git_source_branch: $(git rev-parse --abbrev-ref HEAD)"
 
 namespace=podtato-flux
 kubectl create namespace ${namespace} &> /dev/null || true
@@ -49,8 +49,8 @@ git_source_name=podtato-flux-repo
 git_repo_url=https://github.com/${github_user}/podtato-head
 # TODO: update to main after merge
 #git_source_branch=develop
-#git_source_branch=$(echo ${GITHUB_REF#refs/heads/} | awk '{print tolower($0)}')
-git_source_branch=$(echo ${GITHUB_REF#refs/heads/})
+#git_source_branch=$(echo ${GITHUB_REF#refs/heads/})
+git_source_branch=$(git rev-parse --abbrev-ref HEAD)
 helmrelease_name=podtato-flux-release
 
 if [[ -n "${USE_SSH_GIT_AUTH}" ]]; then
@@ -74,8 +74,6 @@ flux create source git ${git_source_name} \
     --url=${git_repo_url} \
     --secret-ref ${secret_ref_name} \
     --branch=${git_source_branch}
-# | tee -a /tmp/flux-git-sync.yaml
-#kubectl create -f /tmp/flux-git-sync.yaml
 
 # flux adds custom values from a YAML file only so create a temp file for this override
 tmp_values_file=$(mktemp)
