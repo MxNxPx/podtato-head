@@ -34,7 +34,8 @@ commit_sha=$(git rev-parse HEAD)
 if [[ -z "${github_token}" ]]; then
     echo "WARNING: GITHUB_TOKEN not set, push may fail"
 else
-    echo "${github_token}" | docker login --username=${github_user_mixcase} --password-stdin ${registry} &> /dev/null
+    #echo "${github_token}" | docker login --username=${github_user_mixcase} --password-stdin ${registry} &> /dev/null
+    echo "${github_token}" | docker login --username=${github_user_mixcase} --password-stdin ${registry}
 fi
 # /end set up registry access
 
