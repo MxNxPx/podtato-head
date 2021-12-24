@@ -10,7 +10,7 @@ github_user=$(echo $github_user_mixcase | awk '{print tolower($0)}')
 github_token=${2:-${GITHUB_TOKEN}}
 
 echo "github_user: ${github_user}"
-echo "git_source_branch: $(echo ${GITHUB_REF##*/} | awk '{print tolower($0)}')"
+echo "git_source_branch: $(echo ${GITHUB_REF#refs/heads/} | awk '{print tolower($0)}')"
 
 namespace=podtato-flux
 kubectl create namespace ${namespace} &> /dev/null || true
@@ -49,7 +49,7 @@ git_source_name=podtato-flux-repo
 git_repo_url=https://github.com/${github_user}/podtato-head
 # TODO: update to main after merge
 #git_source_branch=develop
-git_source_branch=$(echo ${GITHUB_REF} | awk '{print tolower($0)}')
+git_source_branch=$(echo ${GITHUB_REF#refs/heads/} | awk '{print tolower($0)}')
 helmrelease_name=podtato-flux-release
 
 if [[ -n "${USE_SSH_GIT_AUTH}" ]]; then
