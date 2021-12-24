@@ -48,7 +48,7 @@ git_source_name=podtato-flux-repo
 git_repo_url=https://github.com/${github_user}/podtato-head
 # TODO: update to main after merge
 #git_source_branch=develop
-git_source_branch=$(echo {GITHUB_REF##*/} | awk '{print tolower($0)}')
+git_source_branch=$(echo ${GITHUB_REF##*/} | awk '{print tolower($0)}')
 helmrelease_name=podtato-flux-release
 
 if [[ -n "${USE_SSH_GIT_AUTH}" ]]; then
