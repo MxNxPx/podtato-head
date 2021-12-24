@@ -73,7 +73,8 @@ flux create source git ${git_source_name} \
     --export \
     --url=${git_repo_url} \
     --secret-ref ${secret_ref_name} \
-    --branch=${git_source_branch}
+    --branch=${git_source_branch} | tee -a /tmp/flux-git-sync.yaml
+kubectl create -f /tmp/flux-git-sync.yaml
 
 # flux adds custom values from a YAML file only so create a temp file for this override
 tmp_values_file=$(mktemp)
