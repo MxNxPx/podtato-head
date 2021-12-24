@@ -25,7 +25,8 @@ fi
 
 # set up registry access
 registry=ghcr.io
-github_user=${1:-${GITHUB_USER}}
+github_user_mixcase=${1:-${GITHUB_USER}}
+github_user=$(echo $github_user_mixcase | awk '{print tolower($0)}')
 github_token=${2:-${GITHUB_TOKEN}}
 commit_sha=$(git rev-parse HEAD)
 
