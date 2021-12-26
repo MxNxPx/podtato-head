@@ -1,3 +1,5 @@
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+
 # Deliver with Helm
 
 Here's how to deliver podtato-head using [Helm](https://helm.sh).
@@ -24,35 +26,66 @@ command.
 The installation can be customized by changing the following parameters via
 `--set` or a custom `values.yaml` file specified with `--values`:
 
-| Parameter                       | Description                                                     | Default                      |
-| ------------------------------- | ----------------------------------------------------------------| -----------------------------|
-| `replicaCount`                  | Number of replicas of the container                             | `1`                          |
-| `images.repositoryDirname`      | Prefix for image repos                                          | `ghcr.io/podtato-head`       |
-| `images.pullPolicy`             | Podtato Head Container pull policy                              | `IfNotPresent`               |
-| `images.pullSecrets`            | Podtato Head Pod pull secret                                    | ``                           |
-| `<service>.repositoryBasename`  | Leaf part of name of image repo for <service>                   | `entry`, `hat`, etc.         |
-| `<service>.tag`                 | Tag of image repo for <service>                                 | `0.1.0`                      |
-| `<service>.serviceType`         | Service type for <service>                                      | `LoadBalancer` for main      |
-| `<service>.servicePort`         | Service port for <service>                                      | `9000`-`9005`                |
-| `<service>.extraEnvs`           | Add "env:" entries on Deployments (ex: PODTATO_PART_NUMBER)     | `[]`                         |
-| `serviceAccount.create`         | Whether or not to create dedicated service account              | `true`                       |
-| `serviceAccount.name`           | Name of the service account to use                              | `default`                    |
-| `serviceAccount.annotations`    | Annotations to add to a created service account                 | `{}`                         |
-| `podAnnotations`                | Map of annotations to add to the pods                           | `{}`                         |
-| `ingress.enabled`               | Enables Ingress                                                 | `false`                      |
-| `ingress.annotations`           | Ingress annotations                                             | `{}`                         |
-| `ingress.hosts`                 | Ingress accepted hostnames                                      | `[]`                         |
-| `ingress.tls`                   | Ingress TLS configuration                                       | `[]`                         |
-| `autoscaling.enabled`           | Enable horizontal pod autoscaler                                | `false`                      |
-| `autoscaling.targetCPUUtilizationPercentage`  | Target CPU utilization                            | `80`                         |
-| `autoscaling.targetMemoryUtilizationPercentage`  | Target Memory utilization                      | `80`                         |
-| `autoscaling.minReplicas`       | Min replicas for autoscaling                                    | `1`                          |
-| `autoscaling.maxReplicas`       | Max replicas for autoscaling                                    | `100`                        |
-| `tolerations`                   | List of node taints to tolerate                                 | `[]`                         |
-| `resources`                     | Resource requests and limits                                    | `{}`                         |
-| `nodeSelector`                  | Labels for pod assignment                                       | `{}`                         |
-| `service.type`                  | Kubernetes Service type                                         | `ClusterIP`                  |
-| `service.port`                  | The port the service will use                                   | `9000`                       |
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| nameOverride | string | `""` |  |
+| fullnameOverride | string | `""` |  |
+| replicaCount | int | `1` |  |
+| images.repositoryDirname | string | `"ghcr.io/podtato-head"` | Prefix for image repos |
+| images.pullPolicy | string | `"IfNotPresent"` | Podtato Head Container pull policy |
+| images.pullSecrets | list | `[]` | Podtato Head Pod pull secret |
+| entry.repositoryBasename | string | `"entry"` | Leaf part of name of image repo for entry |
+| entry.tag | string | `"0.1.0"` | Tag of image repo for entry |
+| entry.serviceType | string | `"LoadBalancer"` | Service type for entry |
+| entry.servicePort | int | `9000` | Service port for entry |
+| entry.extraEnvs | list | `[]` | Extra environment variables for entry |
+| hat.repositoryBasename | string | `"hat"` | Leaf part of name of image repo for hat |
+| hat.tag | string | `"0.1.0"` | Tag of image repo for hat |
+| hat.serviceType | string | `"ClusterIP"` | Service type for hat |
+| hat.servicePort | int | `9001` | Service port for hat |
+| hat.extraEnvs | list | `[]` | Extra environment variables for hat |
+| leftLeg.repositoryBasename | string | `"left-leg"` | Leaf part of name of image repo for left-leg |
+| leftLeg.tag | string | `"0.1.0"` | Tag of image repo for left-leg |
+| leftLeg.serviceType | string | `"ClusterIP"` | Service type for left-leg |
+| leftLeg.servicePort | int | `9002` | Service port for left-leg |
+| leftLeg.extraEnvs | list | `[]` | Extra environment variables for left-leg |
+| leftArm.repositoryBasename | string | `"left-arm"` | Leaf part of name of image repo for left-arm |
+| leftArm.tag | string | `"0.1.0"` | Tag of image repo for left-arm |
+| leftArm.serviceType | string | `"ClusterIP"` | Service type for left-arm |
+| leftArm.servicePort | int | `9003` | Service port for left-arm |
+| leftArm.extraEnvs | list | `[]` | Extra environment variables for left-arm |
+| rightLeg.repositoryBasename | string | `"right-leg"` | Leaf part of name of image repo for right-leg |
+| rightLeg.tag | string | `"0.1.0"` | Tag of image repo for right-leg |
+| rightLeg.serviceType | string | `"ClusterIP"` | Service type for right-leg |
+| rightLeg.servicePort | int | `9004` | Service port for right-leg |
+| rightLeg.extraEnvs | list | `[]` | Extra environment variables for right-leg |
+| rightArm.repositoryBasename | string | `"right-arm"` | Leaf part of name of image repo for right-arm |
+| rightArm.tag | string | `"0.1.0"` | Tag of image repo for right-arm |
+| rightArm.serviceType | string | `"ClusterIP"` | Service type for right-arm |
+| rightArm.servicePort | int | `9005` | Service port for right-arm |
+| rightArm.extraEnvs | list | `[]` | Extra environment variables for right-arm |
+| serviceAccount.create | bool | `true` | Whether or not to create dedicated service account |
+| serviceAccount.annotations | object | `{}` | Annotations to add to a created service account |
+| serviceAccount.name | string | `""` |  |
+| podAnnotations | object | `{}` | Map of annotations to add to the pods  |
+| podSecurityContext | object | `{}` |  |
+| securityContext | object | `{}` | Set a securityContext |
+| ingress.enabled | bool | `false` | Enables ingress |
+| ingress.annotations | object | `{}` | Ingress annotations |
+| ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| ingress.hosts[0].paths | list | `[]` |  |
+| ingress.tls | list | `[]` | Ingress TLS configuration |
+| resources | object | `{}` | Resource requests and limits    |
+| autoscaling.enabled | bool | `false` | Enable horizontal pod autoscaler |
+| autoscaling.minReplicas | int | `1` | Min replicas for autoscaling     |
+| autoscaling.maxReplicas | int | `100` | Max replicas for autoscaling     |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| nodeSelector | object | `{}` | Labels for pod assignment |
+| tolerations | list | `[]` | List of node taints to tolerate |
+| affinity | object | `{}` | Affinity configuration |
 
 ## Test
 
@@ -91,9 +124,9 @@ and connect through that:
 > NOTE: Find and kill the port-forward process afterwards using `ps` and `kill`.
 
 ```
-# Choose below the IP address of your machine you want to use to access application 
+# Choose below the IP address of your machine you want to use to access application
 ADDR=127.0.0.1
-# Choose below the port of your machine you want to use to access application 
+# Choose below the port of your machine you want to use to access application
 PORT=9000
 kubectl port-forward --address ${ADDR} svc/podtato-entry ${PORT}:9000 &
 ```
@@ -140,3 +173,12 @@ helm status podtato-head
 ```
 helm uninstall podtato-head
 ```
+
+## How to generate this file
+
+```
+helm-docs -s file
+```
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)

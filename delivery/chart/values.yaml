@@ -2,78 +2,115 @@ nameOverride: ""
 fullnameOverride: ""
 
 # applies to all deployments in this chart
+# -- Number of replicas of the container 
 replicaCount: 1
 images:
+  # -- Prefix for image repos
   repositoryDirname: ghcr.io/podtato-head
+  # -- Podtato Head Container pull policy
   pullPolicy: IfNotPresent
+  # -- Podtato Head Pod pull secret
   pullSecrets: []
 
 # keep ports in sync with podtato-services/main/pkg/provider.go
 entry:
+  # -- Leaf part of name of image repo for entry
   repositoryBasename: entry
+  # -- Tag of image repo for entry
   tag: "0.1.0"
+  # -- Service type for entry
   serviceType: LoadBalancer
+  # -- Service port for entry
   servicePort: 9000
+  # -- Extra environment variables for entry
   extraEnvs: []
   #   - name: PODTATO_PART_NUMBER
   #     value: "01"
 hat:
+  # -- Leaf part of name of image repo for hat
   repositoryBasename: hat
+  # -- Tag of image repo for hat
   tag: "0.1.0"
+  # -- Service type for hat
   serviceType: ClusterIP
+  # -- Service port for hat
   servicePort: 9001
+  # -- Extra environment variables for hat
   extraEnvs: []
   #   - name: PODTATO_PART_NUMBER
   #     value: "01"
 leftLeg:
+  # -- Leaf part of name of image repo for left-leg
   repositoryBasename: left-leg
+  # -- Tag of image repo for left-leg
   tag: "0.1.0"
+  # -- Service type for left-leg
   serviceType: ClusterIP
+  # -- Service port for left-leg
   servicePort: 9002
+  # -- Extra environment variables for left-leg
   extraEnvs: []
   #   - name: PODTATO_PART_NUMBER
   #     value: "01"
 leftArm:
+  # -- Leaf part of name of image repo for left-arm
   repositoryBasename: left-arm
+  # -- Tag of image repo for left-arm
   tag: "0.1.0"
+  # -- Service type for left-arm
   serviceType: ClusterIP
+  # -- Service port for left-arm
   servicePort: 9003
+  # -- Extra environment variables for left-arm
   extraEnvs: []
   #   - name: PODTATO_PART_NUMBER
   #     value: "01"
 rightLeg:
+  # -- Leaf part of name of image repo for right-leg
   repositoryBasename: right-leg
+  # -- Tag of image repo for right-leg
   tag: "0.1.0"
+  # -- Service type for right-leg
   serviceType: ClusterIP
+  # -- Service port for right-leg
   servicePort: 9004
+  # -- Extra environment variables for right-leg
   extraEnvs: []
   #   - name: PODTATO_PART_NUMBER
   #     value: "01"
 rightArm:
+  # -- Leaf part of name of image repo for right-arm
   repositoryBasename: right-arm
+  # -- Tag of image repo for right-arm
   tag: "0.1.0"
+  # -- Service type for right-arm
   serviceType: ClusterIP
+  # -- Service port for right-arm
   servicePort: 9005
+  # -- Extra environment variables for right-arm
   extraEnvs: []
   #   - name: PODTATO_PART_NUMBER
   #     value: "01"
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Whether or not to create dedicated service account
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to a created service account
   annotations: {}
-  # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
+  # -- Name of the service account to use
   name: ""
 
+# -- Map of annotations to add to the pods 
 podAnnotations: {}
 
 # You can learn more about configuring a security context in the Kubernetes docs
 # at https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+# -- Set a podSecurityContext
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- Set a securityContext
 securityContext: {}
   # capabilities:
   #   drop:
@@ -84,18 +121,23 @@ securityContext: {}
 
 # applies to podtato-main deployment only
 ingress:
+  # -- Enables ingress
   enabled: false
+  # -- Ingress annotations
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  # -- Ingress accepted hostnames
   hosts:
     - host: chart-example.local
       paths: []
+  # -- Ingress TLS configuration
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
+# -- Resource requests and limits   
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -109,14 +151,22 @@ resources: {}
   #   memory: 32Mi
 
 autoscaling:
+  # -- Enable horizontal pod autoscaler
   enabled: false
+  # -- Min replicas for autoscaling    
   minReplicas: 1
+  # -- Max replicas for autoscaling    
   maxReplicas: 100
+  # Target CPU utilization
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  # Target Memory utilization
+  targetMemoryUtilizationPercentage: 80
 
+# -- Labels for pod assignment
 nodeSelector: {}
 
+# -- List of node taints to tolerate
 tolerations: []
 
+# -- Affinity configuration
 affinity: {}
