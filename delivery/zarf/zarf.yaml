@@ -1,0 +1,21 @@
+kind: ZarfPackageConfig
+metadata:
+  name: podtato-head
+  description: "Deploys podtato-head helm chart from local files"
+components:
+  - name: podtato-head
+    required: true
+    charts:
+      - name: podtato-head
+        localPath: ../chart
+        namespace: podtato-zarf
+        version: 0.2.7
+        valuesFiles:
+          - values.yaml
+    images:
+      - ghcr.io/podtato-head/entry:latest
+      - ghcr.io/podtato-head/hat:latest
+      - ghcr.io/podtato-head/left-leg:latest
+      - ghcr.io/podtato-head/left-arm:latest
+      - ghcr.io/podtato-head/right-leg:latest
+      - ghcr.io/podtato-head/right-arm:latest

@@ -1,0 +1,26 @@
+# applies to all deployments in this chart
+replicaCount: 1
+
+entry:
+  serviceType: ClusterIP
+  servicePort: 9000
+hat:
+  env:
+    - name: PODTATO_PART_NUMBER
+      value: "02"
+leftLeg:
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+leftArm:
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+rightLeg:
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+rightArm:
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
